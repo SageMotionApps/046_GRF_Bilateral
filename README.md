@@ -1,5 +1,5 @@
 # 046_GRF_Bilateral combined
-The purpose of this GRF_Bilateral app is to predict and stream Ground Reaction Forces (GRFs) in real-time based on IMUs data, facilitating the analysis of force distribution during treadmil walking
+The purpose of this GRF_Bilateral app is to predict and stream Ground Reaction Forces (GRFs) in real-time based on IMUs data, facilitating the analysis of force distribution during treadmill walking
 ### Installation Note:
 The `third_party` folder has all the needed libraries and dependencies required.
 Please refer to the App guide as a tutorial of how to use the App
@@ -33,8 +33,6 @@ No initial static calibration is performed to compensate for misalignment with t
 ## Description of Data in Downloaded File
 ### Calculated Fields
 - time (sec): time since trial start
-- weight_kg: the users weight in kilograms as entered on the app configuration panel
-- height_meter: the users height in meters as entered on the app configuration panel
 - RGRF_x: X component of the GRF acting on the left foot (horizontal force in the medial-lateral
 direction).
 - RGRF_y: Y component of the GRF acting on the left foot (horizontal force in the anterior-posterior
