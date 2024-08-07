@@ -120,6 +120,11 @@ class LmfImuOnlyNet(nn.Module):
         self.gyr_fields = x_fields["input_gyr"]
 
     def forward(self, acc_x, gyr_x, others, lens):
+        # convert inputs to float32 as the model expects it to be float32
+        acc_x = acc_x.float()
+        gyr_x = gyr_x.float()
+        others = others.float()
+        
         acc_h = self.acc_subnet(acc_x, lens)
         gyr_h = self.gyr_subnet(gyr_x, lens)
         batch_size = acc_h.data.shape[0]
@@ -166,6 +171,7 @@ class LmfImuOnlyNet(nn.Module):
         return sequence
 
 
+
 class GRFPredictor:
     def __init__(self, weight, height):
         self.data_buffer = deque(maxlen=MAX_BUFFER_LEN)
@@ -180,12 +186,19 @@ class GRFPredictor:
         self.model = LmfImuOnlyNet(21, 21)
         self.model.eval()
         self.model.load_state_dict(
-            torch.load(model_state_path, map_location=torch.device("cpu"))
-        )
+        torch.load(model_state_path, map_location=torch.device("cpu"), weights_only=True))
 
         self.model.set_fields({"input_acc": ACC_ALL, "input_gyr": GYR_ALL})
         scalar_path = base_path + "/models/scalars.pkl"
-        self.model.set_scalars(pickle.load(open(scalar_path, "rb")))
+        
+        # load the scalars and handle the clip attribute 
+        scalars = pickle.load(open(scalar_path, "rb"))
+        if 'input_acc' in scalars and not hasattr(scalars['input_acc'], 'clip'):
+            scalars['input_acc'].clip = False
+        if 'input_gyr' in scalars and not hasattr(scalars['input_gyr'], 'clip'):
+            scalars['input_gyr'].clip = False
+
+        self.model.set_scalars(scalars)
         self.model.acc_col_loc = [
             self.data_array_fields.index(field) for field in self.model.acc_fields
         ]
@@ -194,7 +207,7 @@ class GRFPredictor:
         ]
         self.weight = weight
         self.height = height
-        anthro_data = np.zeros([1, 152, 5], dtype=np.float32)
+        anthro_data = np.zeros([1, 152, 5], dtype=float)
         anthro_data[:, :, WEIGHT_LOC] = self.weight
         anthro_data[:, :, HEIGHT_LOC] = self.height
         self.model_inputs = {
@@ -226,12 +239,12 @@ class GRFPredictor:
                         inputs["others"],
                         inputs["step_length"],
                     )
-                    pred = pred.detach().numpy().astype(np.float)[0]
+                    pred = pred.detach().numpy().astype(float)[0]
                     pred = pred * self.weight
 
                     if foot == R_FOOT:
                         for i_sample in range(step_length):
-                            # Update last three GRF values for right foot, setting left foot GRFs to 0 coz model predicts 6 values instead of 3, so I am manually setting it to 0
+                            # Update last three GRF values for right foot, setting left foot GRFs to 0
                             self.data_buffer[-step_length + i_sample][1:4] = [
                                 0.0,
                                 0.0,
@@ -247,7 +260,7 @@ class GRFPredictor:
                             self.data_buffer[-step_length + i_sample][7] = 1
                     elif foot == L_FOOT:
                         for i_sample in range(step_length):
-                            # Update first three GRF values for left foot, set right foot GRFs to 0 , same logic as above
+                            # Update first three GRF values for left foot, set right foot GRFs to 0
                             self.data_buffer[-step_length + i_sample][1:4] = pred[
                                 i_sample
                             ][:3]
@@ -278,7 +291,7 @@ class GRFPredictor:
                     [sample_data[0][i_sensor][field] for field in IMU_FIELDS]
                 )
             raw_data.append(raw_data_one_row)
-        data = np.array(raw_data, dtype=np.float32)
+        data = np.array(raw_data, dtype=float)
         data[:, self.model.acc_col_loc] = self.normalize_array_separately(
             data[:, self.model.acc_col_loc],
             self.model.scalars["input_acc"],
@@ -310,3 +323,4 @@ class GRFPredictor:
         scaled_data = getattr(scalar, method)(input_data)
         scaled_data = scaled_data.reshape(original_shape)
         return scaled_data
+
