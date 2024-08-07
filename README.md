@@ -1,6 +1,5 @@
 # 046_GRF_Bilateral combined
-The purpose of this GRF_Bilateral app is to predict and stream Ground Reaction Forces (GRFs) in real-time based on IMUs data, facilitating the analysis of force distribution during various physical activities.
-
+The purpose of this GRF_Bilateral app is to predict and stream Ground Reaction Forces (GRFs) in real-time based on IMUs data, facilitating the analysis of force distribution during treadmil walking
 ### Installation Note:
 The `third_party` folder has all the needed libraries and dependencies required.
 Please refer to the App guide as a tutorial of how to use the App
