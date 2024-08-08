@@ -1,12 +1,12 @@
 {
   "user_guide_file": "GRF Bilateral App Guide.pdf",
-  "app_name": "GRF Bilateral",
-  "app_version": "1_0",
-  "app_id": "046",
-  "version_id": "04610",
+  "app_name": "GRF Bilateral_newpi5_5IMUs",
+  "app_version": "2_0",
+  "app_id": "04622222",
+  "version_id": "0461022",
   "validated_version_range": [
-    "3.20.1",
-    "3.29.0"
+    "4.4.1",
+    "3.4.9"
   ],
   "app_description": "The purpose of this GRF Bilateral app is to predict and stream Ground Reaction Forces (GRFs) in real-time based on IMUs data, facilitating the analysis of force distribution during various physical activities. <br><br>Sensing Nodes Required (7): <br>   - left & right foot (top of the foot, with switch pointing towards body) <br>   - left & right shank (Midway between Femur Lateral Epicondyle and Fibula Apex of Lateral Malleolus, with switch pointing up)  <br>   - left & right thigh ( Midway between Femur Greater Trochanter and Femur Lateral Epicondyle, with switch pointing up) <br>   - pelvis (Midway between Left and Right Anterior Superior Iliac Spine, with switch pointing up) <br><br>",
   "parameters_setting": [
@@ -35,32 +35,12 @@
           200
         ],
         "description": "Subject Weight (Kg)"
-      },
-      {
-        "source": "height",
-        "title": "Subject Height (m)",
-        "type": "float",
-        "validation": [
-          0,
-          2.5
-        ],
-        "description": "Subject Height (m)"
       }
     ]
   ],
   "user_fields": [
     {
       "name": "time",
-      "data_type": "float",
-      "size": 1
-    },
-    {
-      "name": "weight_kg",
-      "data_type": "float",
-      "size": 1
-    },
-    {
-      "name": "height_meter",
       "data_type": "float",
       "size": 1
     },
@@ -106,13 +86,7 @@
     }
   ],
   "sensors": [
-    "L_FOOT",
-    "R_FOOT",
-    "R_SHANK",
-    "R_THIGH",
-    "PELVIS",
-    "L_SHANK",
-    "L_THIGH"
+    "L_FOOT", "R_FOOT", "L_THIGH", "R_THIGH", "WAIST"
   ],
   "feedback": [],
   "datarate": 100
