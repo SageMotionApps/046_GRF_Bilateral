@@ -1,0 +1,15 @@
+{
+  "height": 1.77,
+  "last_connect_feedback": [],
+  "last_connect_sensors": [
+    "18:04:ED:EB:23:A0",
+    "88:6B:0F:4F:A0:C4",
+    "88:6B:0F:4F:A0:DD",
+    "18:04:ED:E7:83:6C",
+    "18:04:ED:EB:21:B1"
+  ],
+  "local_time": "2024-08-08-09-25-23",
+  "save_mode": "xlsx",
+  "trial_name": "GRF_Bilateral_trial_18",
+  "weight": 70
+}
