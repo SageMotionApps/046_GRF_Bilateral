@@ -1,7 +1,5 @@
 # 046_GRF_Bilateral combined
 The purpose of this GRF_Bilateral app is to predict and stream Ground Reaction Forces (GRFs) in real-time based on IMUs data, facilitating the analysis of force distribution during treadmill walking
-### Installation Note:
-The `third_party` folder has all the needed libraries and dependencies required.
 Please refer to the App guide as a tutorial of how to use the App
 For any technical assitance, please contact [Sagemotion](mailto:info@sagemotion.com) directly.
 
@@ -17,7 +15,7 @@ For any technical assitance, please contact [Sagemotion](mailto:info@sagemotion.
 
 ## Algorithm & Calibration
 ### Algorithm Information
-Our deep learning framework is composed of multiple components designed to effectively process IMU data and predict ground reaction forces (GRFs) in realtime. The core architecture consists of two primary networks: the InertialNe for processing IMU data and the OutNet for predicting GRFs. Additionally, we introduce the LmfImuOnlyNet, which employs a low-rank multimodal fusion approach for combining accelerometer and gyroscope data.
+Our deep learning framework is composed of multiple components designed to effectively process IMU data and predict ground reaction forces (GRFs) in realtime. The core architecture consists of two primary networks: the InertialNet for processing IMU data and the OutNet for predicting GRFs. Additionally, we introduce the LmfImuOnlyNet, which employs a low-rank multimodal fusion approach for combining accelerometer and gyroscope data.
 
 The InertialNet is a GRU-based recurrent neural network designed to process sequential IMU data. Each InertialNet takes as input the data from either the accelerometer or gyroscope and outputs a high-dimensional representation.
 
